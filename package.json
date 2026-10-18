@@ -1,0 +1,17 @@
+{
+  "name": "tourism-leads-cold-calling-crm",
+  "version": "1.0.0",
+  "description": "Cold calling command center and lead pipeline for tourism companies in Egypt",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "export-excel": "node generate_excel.js",
+    "build-data": "node export_data_js.js"
+  },
+  "keywords": ["tourism", "cold-calling", "leads", "crm", "egypt"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}

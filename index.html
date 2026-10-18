@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tourism Cold Calling Command Center | Website Business</title>
+  <meta name="description" content="High-impact cold calling and sales pipeline CRM for tourism companies in Egypt. Pitch websites, track call outcomes, and close web development deals.">
+  
+  <!-- Modern Typography: Plus Jakarta Sans (UI) & Cairo (Arabic) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- SheetJS for instant in-browser Excel (.xlsx) export -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Sticky Header -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="brand-icon">📞</div>
+      <div class="brand-titles">
+        <h1>
+          Tourism Leads Action Center
+          <span class="badge-tag">Egypt Cold Calling CRM</span>
+        </h1>
+        <p>120 Tourism Agencies & Travel Offices • Oct / Giza / Cairo • Website Sales Pipeline</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button id="openScriptBtn" class="btn btn-script" title="Open Cold Calling Scripts & Objections">
+        📖 Sales Scripts & Objections
+      </button>
+      <button id="exportExcelBtn" class="btn btn-excel" title="Download updated spreadsheet with all notes & statuses">
+        📥 Export to Excel (.xlsx)
+      </button>
+      <button id="exportCsvBtn" class="btn btn-secondary" title="Download as CSV file">
+        📄 Export CSV
+      </button>
+      <button id="resetDataBtn" class="btn btn-secondary" title="Reset all statuses and start fresh">
+        🔄 Reset
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Application Body -->
+  <main class="main-container">
+
+    <!-- KPI Metric Cards -->
+    <section class="kpi-grid">
+      <div class="kpi-card blue">
+        <div class="kpi-header">
+          <span class="kpi-title">Total Database</span>
+          <span class="kpi-icon">📁</span>
+        </div>
+        <div class="kpi-value" id="kpiTotal">120</div>
+        <div class="kpi-sub">Tourism & travel companies</div>
+      </div>
+
+      <div class="kpi-card emerald">
+        <div class="kpi-header">
+          <span class="kpi-title">Direct Dial Ready</span>
+          <span class="kpi-icon">📱</span>
+        </div>
+        <div class="kpi-value" id="kpiReadyPhone">109</div>
+        <div class="kpi-sub">Valid mobile / direct numbers</div>
+      </div>
+
+      <div class="kpi-card gold">
+        <div class="kpi-header">
+          <span class="kpi-title">🎯 Golden: No Website</span>
+          <span class="kpi-icon">🔥</span>
+        </div>
+        <div class="kpi-value" id="kpiNoWebsite">68</div>
+        <div class="kpi-sub">Zero web presence (Highest conversion)</div>
+      </div>
+
+      <div class="kpi-card purple">
+        <div class="kpi-header">
+          <span class="kpi-title">⚠️ Outdated / HTTP</span>
+          <span class="kpi-icon">🛡️</span>
+        </div>
+        <div class="kpi-value" id="kpiOutdatedHttp">30</div>
+        <div class="kpi-sub">Not secure (Easy SSL / revamp pitch)</div>
+      </div>
+
+      <div class="kpi-card emerald">
+        <div class="kpi-header">
+          <span class="kpi-title">🔥 Interested Leads</span>
+          <span class="kpi-icon">💼</span>
+        </div>
+        <div class="kpi-value" id="kpiInterested">0</div>
+        <div class="kpi-sub">Ready for quotation / demo</div>
+      </div>
+
+      <div class="kpi-card blue">
+        <div class="kpi-header">
+          <span class="kpi-title">Total Calls Dialed</span>
+          <span class="kpi-icon">📞</span>
+        </div>
+        <div class="kpi-value" id="kpiCallsMade">0</div>
+        <div class="kpi-sub">Calls logged in session</div>
+      </div>
+    </section>
+
+    <!-- Daily Cold Calling Goal Gauge -->
+    <section class="daily-goal-panel">
+      <div class="daily-goal-info">
+        <div class="goal-label">
+          <span>🎯 Daily Dialing Goal:</span>
+        </div>
+        <div class="goal-count">
+          <strong id="dailyCallsCount">0</strong> / <span id="dailyCallsTarget">30</span> Calls Completed
+        </div>
+      </div>
+
+      <div class="progress-track" title="Daily Goal Progress">
+        <div class="progress-fill" id="goalProgressFill" style="width: 0%;"></div>
+      </div>
+
+      <div class="goal-actions">
+        <span id="goalPercentText" style="font-size: 12px; font-weight: 700; color: #38bdf8;">0%</span>
+        <button id="increaseGoalBtn" class="btn btn-secondary btn-mini" title="Adjust target goal">+ Target</button>
+      </div>
+    </section>
+
+    <!-- Filter & Search Control Center -->
+    <section class="filter-bar">
+      <!-- Search and Views -->
+      <div class="search-row">
+        <div class="search-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search by company name, phone, area, category, or note..." autocomplete="off">
+          <button id="searchClearBtn" class="search-clear" title="Clear Search">✕</button>
+        </div>
+
+        <select id="sortSelect" class="sort-select" title="Sort Leads">
+          <option value="priority">Sort: 🎯 High Opportunity First (No Website)</option>
+          <option value="id-asc">Sort: Original Sheet Order (ID 1-120)</option>
+          <option value="calls-asc">Sort: Untouched First (Least Dialed)</option>
+          <option value="calls-desc">Sort: Most Dialed First</option>
+          <option value="name-asc">Sort: Name (A to Z)</option>
+        </select>
+
+        <div class="view-toggle">
+          <button id="viewCardsBtn" class="view-btn active" title="Cards View - Best for Cold Calling">
+            🗂️ Action Cards
+          </button>
+          <button id="viewTableBtn" class="view-btn" title="Table View - Compact Overview">
+            📋 Grid Table
+          </button>
+        </div>
+      </div>
+
+      <!-- Opportunity Filter Pills -->
+      <div class="pills-group">
+        <span class="pills-label">Opportunity:</span>
+        <button class="filter-pill active" data-filter-type="opportunity" data-val="all">
+          All Leads <span class="pill-count" id="countAll">120</span>
+        </button>
+        <button class="filter-pill active-gold" data-filter-type="opportunity" data-val="no-website">
+          🎯 No Website <span class="pill-count" id="countNoWeb">68</span>
+        </button>
+        <button class="filter-pill" data-filter-type="opportunity" data-val="http">
+          ⚠️ Outdated HTTP <span class="pill-count" id="countHttp">30</span>
+        </button>
+        <button class="filter-pill" data-filter-type="opportunity" data-val="modern">
+          🌐 Has Website <span class="pill-count" id="countModern">22</span>
+        </button>
+        <button class="filter-pill" data-filter-type="opportunity" data-val="has-phone">
+          📞 Ready to Call <span class="pill-count" id="countPhone">109</span>
+        </button>
+        <button class="filter-pill" data-filter-type="opportunity" data-val="missing-phone">
+          ❓ Missing Phone <span class="pill-count" id="countNoPhone">11</span>
+        </button>
+      </div>
+
+      <!-- Status Filter Pills -->
+      <div class="pills-group">
+        <span class="pills-label">Call Status:</span>
+        <button class="filter-pill active" data-filter-type="status" data-val="all">All</button>
+        <button class="filter-pill" data-filter-type="status" data-val="New">🆕 New</button>
+        <button class="filter-pill" data-filter-type="status" data-val="Interested">🔥 Interested</button>
+        <button class="filter-pill" data-filter-type="status" data-val="Follow Up">📅 Callback</button>
+        <button class="filter-pill" data-filter-type="status" data-val="No Answer">📵 No Answer</button>
+        <button class="filter-pill" data-filter-type="status" data-val="Not Interested">❌ Not Interested</button>
+        <button class="filter-pill" data-filter-type="status" data-val="Closed Won">🎉 Deal Won</button>
+      </div>
+    </section>
+
+    <!-- Results Summary Count -->
+    <div class="results-summary">
+      <div>Showing <strong id="visibleCount">120</strong> of 120 leads</div>
+      <div id="filterTagActive" style="font-size: 12px; color: #38bdf8;">Filter: All Opportunities</div>
+    </div>
+
+    <!-- Leads Display Area: Cards View (Default) -->
+    <section id="cardsContainer" class="leads-grid">
+      <!-- Injected via JavaScript -->
+    </section>
+
+    <!-- Leads Display Area: Table View -->
+    <section id="tableContainer" class="table-view-container" style="display: none;">
+      <table class="leads-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Company Name</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Phone</th>
+            <th>Opportunity</th>
+            <th>Website</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Injected via JavaScript -->
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <!-- Cold Calling Sales Scripts & Objection Handling Sliding Drawer -->
+  <aside id="scriptDrawerBackdrop" class="drawer-backdrop">
+    <div class="drawer-content">
+      <div class="drawer-header">
+        <h2>
+          <span>📖</span> Cold Calling Pitch & Scripts
+        </h2>
+        <button id="closeScriptBtn" class="drawer-close" title="Close Drawer">✕</button>
+      </div>
+
+      <div class="drawer-tabs">
+        <button class="drawer-tab active" data-tab="tab-no-website">🎯 No Website Pitch</button>
+        <button class="drawer-tab" data-tab="tab-http">⚠️ HTTP / Revamp Pitch</button>
+        <button class="drawer-tab" data-tab="tab-whatsapp">💬 WhatsApp Templates</button>
+        <button class="drawer-tab" data-tab="tab-objections">🛡️ Objection Handling</button>
+      </div>
+
+      <div class="drawer-body">
+
+        <!-- Tab 1: No Website Script -->
+        <div id="tab-no-website" class="tab-panel active">
+          <div class="script-card">
+            <div class="script-card-header">
+              <span class="script-tag">🎯 Script #1: For Companies with NO Website (68 Leads)</span>
+              <button class="btn btn-secondary btn-mini copy-text-btn" data-target="arabic-script-1">📋 Copy Arabic</button>
+            </div>
+            <div class="arabic-text" id="arabic-script-1">
+              "صباح الخير / مساء الخير يا فندم، مع حضرتك [اسمك] من [اسم شركتك] لتطوير وبرمجة المواقع.<br><br>
+              بكلم حضرتك بخصوص شركة [اسم شركة السياحة]... لاحظنا إن شركتكم ممتازة ولها سمعة قوية على جوجل، بس مالكوش موقع إلكتروني رسمي خاص بيكم.<br><br>
+              وده بيخلي السائح أو العميل اللي بيبحث على جوجل يحجز مباشرة مع الشركات المنافسة اللي عندها موقع.<br><br>
+              إحنا متخصصين في تصميم مواقع سياحية متكاملة وسريعة بتعرض البرامج والرحلات ومرتبطة بحجز واتساب فوري وبأسعار خاصة جداً للشركات في مصر.<br><br>
+              ممكن أبعت لحضرتك على الواتساب سابقة أعمالنا ونماذج مواقع نفذناها في دقيقة؟"
+            </div>
+            <div class="english-text">
+              <strong>English Pitch:</strong><br>
+              "Good day! This is [Your Name] from [Agency]. I noticed your tourism company has great local presence, but currently lacks an official website. Tourists searching on Google are booking directly with competitors who have websites. We build dedicated, high-converting tourism websites with tour packages and instant WhatsApp booking. Can I send you a 1-minute demo portfolio on WhatsApp?"
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Outdated HTTP Script -->
+        <div id="tab-http" class="tab-panel" style="display: none;">
+          <div class="script-card">
+            <div class="script-card-header">
+              <span class="script-tag">⚠️ Script #2: For HTTP / Outdated Websites (30 Leads)</span>
+              <button class="btn btn-secondary btn-mini copy-text-btn" data-target="arabic-script-2">📋 Copy Arabic</button>
+            </div>
+            <div class="arabic-text" id="arabic-script-2">
+              "أهلاً بحضرتك يا فندم، أنا بكلم حضرتك بخصوص موقع شركة [اسم الشركة].<br><br>
+              لاحظنا إن الموقع الحالي شغال بنظام قديم ومش محمي بشهادة أمان SSL (بيظهر للزائر تنبيه 'غير آمن / Not Secure' في متصفحات جوجل كروم وسفاري)، وغير متجاوب مع الموبايلات الحديثة.<br><br>
+              وده بيقلل جداً من ثقة السائح الأجنبي أو العميل إنه يتواصل أو يدفع.<br><br>
+              إحنا بنعمل ترقية وتجديد كامل للموقع ليكون فائق السرعة، مؤمن 100%، وبيظهر في أول نتائج بحث جوجل.<br><br>
+              إيه رأي حضرتك نبعت لحضرتك تقرير فحص مجاني وسريع للموقع على الواتساب؟"
+            </div>
+            <div class="english-text">
+              <strong>English Pitch:</strong><br>
+              "Hello! I am reaching out regarding your website. We noticed it is currently unencrypted (showing 'Not Secure' warnings to foreign visitors) and not optimized for modern mobile booking. We help travel agencies revamp their sites with modern UX, SSL security, and top SEO ranking. Would you like a free quick audit sent to your WhatsApp?"
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: WhatsApp Templates -->
+        <div id="tab-whatsapp" class="tab-panel" style="display: none;">
+          <div class="script-card">
+            <div class="script-card-header">
+              <span class="script-tag">💬 WhatsApp Outreach Template (No Website)</span>
+              <button class="btn btn-secondary btn-mini copy-text-btn" data-target="wa-template-1">📋 Copy</button>
+            </div>
+            <div class="arabic-text" id="wa-template-1">
+              السلام عليكم ورحمة الله وبركاته، أهلاً بحضرتك يا فندم.<br>
+              بكلم حضرتك بخصوص شركة السياحة الخاصة بكم...<br>
+              بنقدم حلول وتصميم مواقع إلكترونية احترافية مخصصة لشركات السياحة في مصر لعرض برامج الرحلات وجذب السياح وحجز فوري عبر الواتساب.<br>
+              حابين نشارك مع حضرتك نماذج من أعمالنا وعروضنا الحصرية.<br>
+              هل يناسب حضرتك نرسل لحضرتك التفاصيل هنا على الواتساب؟
+            </div>
+          </div>
+
+          <div class="script-card">
+            <div class="script-card-header">
+              <span class="script-tag">💬 WhatsApp Follow-up (After Call)</span>
+              <button class="btn btn-secondary btn-mini copy-text-btn" data-target="wa-template-2">📋 Copy</button>
+            </div>
+            <div class="arabic-text" id="wa-template-2">
+              تشرفت بالمحادثة الهاتفية مع حضرتك منذ قليل يا فندم بخصوص تطوير الموقع الإلكتروني لشركتكم.<br>
+              مرفق لحضرتك سابقة أعمالنا في قطاع السياحة والسفر ورابط النماذج الحية.<br>
+              يسعدني الرد على أي استفسار وتحديد موعد مناسب لعرض التجربة لحضرتك بالتفصيل.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Objection Handling -->
+        <div id="tab-objections" class="tab-panel" style="display: none;">
+          <div class="script-card">
+            <div class="script-card-header">
+              <span class="script-tag">🛡️ Objection: "بنعتمد على فيسبوك وانستجرام بس"</span>
+            </div>
+            <div class="arabic-text">
+              "تمام جداً يا فندم، السوشيال ميديا ممتازة، بس السائح الأجنبي أو العميل الجاد اللي هيدفع آلاف في رحلة بيدور أول حاجة على جوجل علشان يتأكد إن الشركة معتمدة ولها كيان رسمي ومرخص. الموقع بيعزز المصداقية وبيشتغل 24 ساعة مبيعات آلية."
+            </div>
+          </div>
+
+          <div class="script-card">
+            <div class="script-card-header">
+              <span class="script-tag">🛡️ Objection: "ابعتلي على الواتساب وأنا هشوف"</span>
+            </div>
+            <div class="arabic-text">
+              "من عينيا يا فندم، هبعت لحضرتك حالاً فيديو دقيقة فيه نماذج لشركات سياحة نفذناها، وهتابع مع حضرتك بكرة الساعة 2 ظهراً بحيث أجاوب على أي استفسار لحضرتك. شكراً لوقتك!"
+            </div>
+          </div>
+
+          <div class="script-card">
+            <div class="script-card-header">
+              <span class="script-tag">🛡️ Objection: "المدير مش موجود حالياً"</span>
+            </div>
+            <div class="arabic-text">
+              "مفيش أي مشكلة يا فندم، ممكن أعرف اسم المدير المسؤول والميعاد الأنسب اللي ممكن أكلمه فيه؟ وهبعت لحضرتك بروفايل الشركة على الواتساب يطّلع عليه لحين اتصالي به."
+            </div>
+          </div>
+
+          <div class="script-card">
+            <div class="script-card-header">
+              <span class="script-tag">🛡️ Objection: "التكلفة كام؟"</span>
+            </div>
+            <div class="arabic-text">
+              "عندنا باقات مرنة جداً مصممة خصيصاً لشركات السياحة بتبدأ من تكلفة مناسبة جداً شاملة الدومين والاستضافة والإيميلات الرسمية، وأهم ميزة إن الموقع بيعوض تكلفته من أول حجز رحلة مباشر يجيلك."
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </aside>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Load Leads Data -->
+  <script src="data.js"></script>
+  <!-- Load App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
