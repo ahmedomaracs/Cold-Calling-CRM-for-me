@@ -5,8 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "export-excel": "node generate_excel.js",
-    "build-data": "node export_data_js.js"
+    "dev": "node server.js",
+    "build": "echo Static site is ready for deployment",
+    "export-excel": "node generate_excel.js"
   },
   "keywords": ["tourism", "cold-calling", "leads", "crm", "egypt"],
   "author": "",
